@@ -6,6 +6,10 @@ const schema = require("./schema");
 const DataLoader = require("dataloader");
 const util = require("util");
 const parseXML = util.promisify(require("xml2js").parseString);
+const cors = require("cors");
+
+//Allow CORS
+app.use(cors());
 
 app.use(
   "/graphql",
@@ -15,5 +19,5 @@ app.use(
   })
 );
 
-app.listen(3000);
+app.listen(4000);
 console.log("Listening ...");
