@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import BookItem from "./BookItem";
 
 const BOOKS_QUERY = gql`
-  query BooksQuery {
-    books(id: 89901274) {
+  query BooksQuery($id: String!) {
+    books(id: $id) {
       userBooks {
         title
         author
@@ -19,30 +19,71 @@ const BOOKS_QUERY = gql`
   }
 `;
 
-class Books extends React.Component {
+const BookList = ({ id }) => (
+  <Query query={BOOKS_QUERY} variables={{ id }}>
+    {({ loading, error, data }) => {
+      if (loading) return <h4>Loading...</h4>;
+      if (error) return <h1>Please enter a valid Goodreads UserId</h1>;
+
+      return (
+        <Fragment>
+          {data.books.userBooks.map(book => (
+            <BookItem key={book.title} book={book} />
+          ))}
+        </Fragment>
+      );
+    }}
+  </Query>
+);
+
+function UserBooks(props) {
+  const hasUserId = props.userId;
+  if (hasUserId.toString().length === 8) {
+    return <BookList id={hasUserId} />;
+  }
+  return <h1>Please enter a valid Goodreads UserId</h1>;
+}
+
+class User extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      queryValue: "",
+      inputValue: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    if (event.target.value.length > 0) {
+      this.setState({ inputValue: event.target.value });
+    } else {
+      this.setState({ inputValue: "" });
+    }
+  }
+
   render() {
     return (
       <Fragment>
-        <h1>Books</h1>
-        <Query query={BOOKS_QUERY} userId="89901274">
-          {({ loading, error, data }) => {
-            if (loading) return <h4>Loading...</h4>;
-            if (error) console.log(error);
-            console.log(data);
-
-            return (
-              <Fragment>
-                {" "}
-                {data.books.userBooks.map(book => (
-                  <BookItem key={book.title} book={book} />
-                ))}
-              </Fragment>
-            );
-          }}
-        </Query>
+        <form>
+          <label>
+            User ID or Username:
+            <input
+              type="text"
+              value={this.state.inputValue}
+              onChange={this.handleChange}
+            />
+          </label>
+        </form>
+        <h2>User Books</h2>
+        <aside className="bookPanel">
+          <UserBooks userId={this.state.inputValue} />
+        </aside>
       </Fragment>
     );
   }
 }
 
-export default Books;
+export default User;

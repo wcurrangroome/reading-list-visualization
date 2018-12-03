@@ -1,8 +1,6 @@
 const fetch = require("node-fetch");
 const util = require("util");
 const parseXML = util.promisify(require("xml2js").parseString);
-const key = "tNMmiZMaeysAOmDsWtL8g";
-const id = 89901274;
 
 const {
   GraphQLObjectType,
@@ -70,7 +68,7 @@ module.exports = new GraphQLSchema({
       user: {
         type: UserType,
         args: {
-          id: { type: GraphQLInt }
+          id: { type: GraphQLString }
         },
         resolve: (root, args) =>
           fetch(
@@ -84,7 +82,7 @@ module.exports = new GraphQLSchema({
       books: {
         type: UserType,
         args: {
-          id: { type: GraphQLInt }
+          id: { type: GraphQLString }
         },
         resolve: (root, args) =>
           fetch(

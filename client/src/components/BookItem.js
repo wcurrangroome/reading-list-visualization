@@ -5,7 +5,8 @@ export default function BookItem({
 }) {
   return (
     <div className="book">
-      <span className="title">{title}</span> by {author}
+      <span className="title">{title}</span> <br />
+      <span className="author">{author}</span>
     </div>
   );
 }
