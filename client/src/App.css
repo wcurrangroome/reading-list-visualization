@@ -26,3 +26,16 @@ aside {
   overflow-y: scroll;
   height: 500px;
 }
+
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+}
+
+#tooltip.hidden {
+  display: none;
+}
+
+.tooltip {
+  position: absolute;
+}

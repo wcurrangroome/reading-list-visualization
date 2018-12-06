@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import BookItem from "./BookItem";
+import BooksViz from "./BooksViz";
 
 const BOOKS_QUERY = gql`
   query BooksQuery($id: String!) {
@@ -14,6 +15,8 @@ const BOOKS_QUERY = gql`
         pageCount
         ratingAllUsers
         ratingCount
+        readDate
+        publishDate
       }
     }
   }
@@ -24,7 +27,6 @@ const BookList = ({ id }) => (
     {({ loading, error, data }) => {
       if (loading) return <h4>Loading...</h4>;
       if (error) return <h1>Please enter a valid Goodreads UserId</h1>;
-
       return (
         <Fragment>
           {data.books.userBooks.map(book => (
@@ -39,7 +41,12 @@ const BookList = ({ id }) => (
 function UserBooks(props) {
   const hasUserId = props.userId;
   if (hasUserId.toString().length === 8) {
-    return <BookList id={hasUserId} />;
+    return (
+      <div className="wrapper">
+        <BookList id={hasUserId} />
+        <BooksViz id={hasUserId} />
+      </div>
+    );
   }
   return <h1>Please enter a valid Goodreads UserId</h1>;
 }
