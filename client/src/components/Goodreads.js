@@ -44,7 +44,10 @@ function UserBooks(props) {
     return (
       <div className="wrapper">
         <BookList id={hasUserId} />
-        <BooksViz id={hasUserId} />
+        <BooksViz
+          id={hasUserId}
+          size={{ height: window.innerHeight, width: window.innerWidth }}
+        />
       </div>
     );
   }

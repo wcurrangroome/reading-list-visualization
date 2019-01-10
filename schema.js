@@ -66,21 +66,27 @@ const BookType = new GraphQLObjectType({
           Dec: "12"
         };
         const dateArray = xml.read_at[0].split(" ");
-        return new Date(
-          dateArray[dateArray.length - 1],
-          parseInt(months[dateArray[1]], 10),
-          dateArray[2]
-        );
+        console.log(dateArray);
+        if (dateArray.length > 1) {
+          return new Date(
+            dateArray[dateArray.length - 1],
+            parseInt(months[dateArray[1]], 10),
+            dateArray[2]
+          );
+        } else {
+          return null;
+        }
       }
     },
     publishDate: {
       type: GraphQLDate,
-      resolve: xml =>
-        new Date(
+      resolve: xml => {
+        return new Date(
           xml.book[0].publication_year[0],
           xml.book[0].publication_month[0],
           xml.book[0].publication_day[0]
-        )
+        );
+      }
     }
   })
 });

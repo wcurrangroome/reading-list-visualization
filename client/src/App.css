@@ -27,15 +27,17 @@ aside {
   height: 500px;
 }
 
-#tooltip {
-  position: absolute;
-  pointer-events: none;
-}
-
-#tooltip.hidden {
-  display: none;
-}
-
 .tooltip {
   position: absolute;
+  background: rgb(147, 177, 201);
+  color: black;
+  font-size: 14px;
+  opacity: 0.8;
+  padding: 10px;
+  width: auto;
+  border-radius: 10px;
+}
+
+#hidden {
+  display: none;
 }
